@@ -1,0 +1,17 @@
+{
+  "name": "rebeter-web",
+  "version": "1.0.0",
+  "description": "Fun app for rebecca and pete",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Rebecca Zhang, Peter Zhou",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.4",
+    "mongodb": "^3.1.12",
+    "nodemon": "^1.18.9",
+    "socket.io": "^2.2.0"
+  }
+}

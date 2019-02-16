@@ -1,27 +1,33 @@
 var socket = io()
 
 var event_list = []
+var uniqueKey = GetURLParameter("wid");
 
 $(document).ready(function() {
-  //get from server
-  $.get("/initialLoad", function(items, status){
-    //console.log(items);
+
+  //get from server (REST)
+  $.get("/loadWeekend?wid=" + uniqueKey, function(items, status){
     event_list = items;
     updateEvents();
   });
 
-  //buttons that send to server
-  $("#manual_add_btn").click(function(){addItem()});
-
-  //adding from server response
-  socket.on('serverEvent', function(item){
-    event_list.push(item);
-    updateEvents();
-    //$("#the_list").append($('<li>').text(item.activity));
+  $.get("/suggestions?wid=" + uniqueKey, function(items, status){
+    $("#trip_info").text(items[0].dest + ", " + items[0].from + " to " + items[0].to);
   });
 
+  //buttons that send to server (sockets)
+  $("#manual_add_btn").click(function(){addItem()});
+
+  //adding from server response (sockets)
+  socket.on('serverEvent', function(item){
+    if (item.key == uniqueKey){
+      event_list.push(item);
+      updateEvents();
+    }
+  });
 
 });
+
 
 
 function updateEvents(){
@@ -35,6 +41,7 @@ function updateEvents(){
 
 function addItem(){
   var item = {
+    key: uniqueKey,
     activity: $("#activity").val(),
     time: $("#time").val(),
     location: $("#location").val(),
@@ -46,6 +53,29 @@ function addItem(){
   $("#location").val("");
 
 }
+
+
+
+
+function GetURLParameter(sParam){
+  var sPageURL = window.location.search.substring(1);
+  var sURLVariables = sPageURL.split('&');
+  for (var i = 0; i < sURLVariables.length; i++){
+    var sParameterName = sURLVariables[i].split('=');
+    if (sParameterName[0] == sParam){
+      return sParameterName[1];
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
 
 
 

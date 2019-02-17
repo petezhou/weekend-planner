@@ -34,7 +34,7 @@ app.get("/loadWeekend", (req, res, next) => {
 	});
 });
 
-app.get("/suggestions", (req, res, next) => {
+app.get("/tripInfo", (req, res, next) => {
   //trip info at the top. this info will be needed for scraping 
   var items = myDb.retrieveTrip(req.query.wid).then(function(result){
     res.send(result);
@@ -58,6 +58,9 @@ io.on('connection', function(socket){
   });
 
   //chat
+  socket.on('myChat', function(item){
+    io.emit('serverChat', item)
+  });
 
 });
 

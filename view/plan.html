@@ -3,14 +3,17 @@
   <head>
     <meta charset="UTF-8" />
     <title>Weekend Planner</title>
+    <link rel="icon" href="https://cdn0.iconfinder.com/data/icons/time-organizing/512/xxx032-512.png">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
-    <script src="/schedule.js"></script>
+    <script src="/plan.js"></script>
   </head>
   <body>
-    <h2>Weekend Planner</h2>
+
+    <h1>Weekend Planner</h1>
+    <h4 id="trip_info"></h4>
     <div id="manual_add">
-      <h3>Manual Entry</h3>
+      <h3>Add Event</h3>
       <div> 
         <p>What: <input type="text" id="activity"></p>
         <p>When: <input type="datetime-local" id="time"></p>
@@ -18,20 +21,23 @@
         <button id="manual_add_btn">Add Event!</button>
       </div>
     </div>
+
     <div id="suggestions_add">
-      <h3>Suggestions</h3>
-      <p id="trip_info"></p>
-      <p>Coming Soon</p>
+      <h3>Event Suggestions</h3>
+      <p><i>Coming Soon</i></p>
     </div>
+
     <div id="display">
       <h3>Your Weekend</h3>
       <div id='the_list'></div>
     </div>
+
     <div id="chat">
       <h3>Group Chat</h3>
-      <p>Coming Soon</p>
+      <p>Name: <input id="username"></input></p>
+      <div id="chat_area" style="overflow-y: scroll; height:300px; width:50%; border:1px solid black;"></div>
+      <input type="text" id="chat_input" style="width:46%; margin-top: 4px"> <button id="send_btn">Send</button></input>
     </div>
-
 
   </body>
 </html>

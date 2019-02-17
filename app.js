@@ -1,8 +1,13 @@
+
 var express = require('express');
 var app = express();
 var path = require('path');
+var bodyParser = require('body-parser')
+app.use( bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true})); 
 app.use(express.static(__dirname + '/view'));
 app.use(express.static(__dirname + '/scripts'));
+app.use(express.static(__dirname + '/styles'));
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var myDb = require('./mongodbapi');
@@ -62,6 +67,11 @@ io.on('connection', function(socket){
     io.emit('serverChat', item)
   });
 
+  socket.on('deleteMyEvent', function(items){
+    myDb.deleteActivity(items[0]);
+    var lst = [items[0].key, items[1]]
+    io.emit('serverDelete', lst)
+  });
 });
 
 

@@ -16,6 +16,8 @@ $(document).ready(function() {
     $("#trip_info").text(items[0].dest + ", " + items[0].from + " to " + items[0].to);
   });
 
+
+
   //EVENTS I/O
   $("#manual_add_btn").click(addItem);
 
@@ -26,12 +28,19 @@ $(document).ready(function() {
     }
   });
 
+  socket.on('serverDelete', function(lst){
+    if (lst[0] == uniqueKey){
+      event_list.splice(lst[1], 1);
+      updateEvents();
+    }
+  });
+
+
 
   //CHAT 
   $("#send_btn").click(sendMessage);
 
   socket.on('serverChat', function(item){
-    console.log("Here?");
     if (item.key == uniqueKey){
       var area = $('#chat_area');
       area.append($('<p>').text(item.username + ": " + item.message));
@@ -40,20 +49,31 @@ $(document).ready(function() {
   })
 
 
+
 });
 
 
 
 
-
-
+//helper functions
 
 function updateEvents(){
-  event_list.sort((a,b) => (a.time > b.time) ? 1 : ((b.time > a.time) ? -1 : 0));
   $("#the_list").empty();
+  event_list.sort((a,b) => (a.time > b.time) ? 1 : ((b.time > a.time) ? -1 : 0));
+  var i = 0;
   event_list.forEach(function (item){
-    $("#the_list").append($('<p>').text(item.time + " - " + item.activity + " - " + item.location));
+    $("#the_list").append("<p class=an_event id=event_"+i+">" + item.time + " - " + item.activity + " - " + item.location 
+                            + "<button style='margin-left:3px' class=rmv>X</button></p>");
+    i++;
   });  
+
+  //handler when elements are removed
+  $(".rmv").click(function(){  
+    var idx = $(this).parent().attr('id').split('_')[1];  
+    var removed = event_list[idx];
+    var lst = [removed, idx]
+    socket.emit("deleteMyEvent", lst);
+  });
 }
 
 
@@ -81,8 +101,6 @@ function sendMessage(){
   socket.emit("myChat", item);
   $("#chat_input").val("");
 }
-
-
 
 
 function GetURLParameter(sParam){

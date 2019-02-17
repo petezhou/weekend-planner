@@ -1,0 +1,7 @@
+.rmv {
+    display: none;
+}
+
+.an_event:hover .rmv {
+    display: inline-block;
+}

@@ -13,7 +13,7 @@ $(document).ready(function() {
   });
 
   $.get("/tripInfo?wid=" + uniqueKey, function(items, status){
-    $("#trip_info").text(items[0].dest + ", " + items[0].from + " to " + items[0].to);
+    $("#trip_info").text(items[0].dest + " - " + items[0].from + " to " + items[0].to);
   });
 
 
@@ -61,15 +61,30 @@ function updateEvents(){
   $("#the_list").empty();
   event_list.sort((a,b) => (a.time > b.time) ? 1 : ((b.time > a.time) ? -1 : 0));
   var i = 0;
+  var curDay = "";
   event_list.forEach(function (item){
-    $("#the_list").append("<p class=an_event id=event_"+i+">" + item.time + " - " + item.activity + " - " + item.location 
-                            + "<button style='margin-left:3px' class=rmv>X</button></p>");
+    //time stuff
+    var dateTime = new Date(item.time);
+    var date = formatDate(dateTime, "MMM d");
+    var time = formatDate(dateTime, "h:mm a");
+    if (date !== curDay){
+      $("#the_list").append("<h4>"+date+"</h4>");
+      curDay = date;
+    }
+    //location link stuff
+    var loc = item.location;
+    var locRep = loc.replace(/ /g, "+");
+    var gmapsLink = "https://google.com/maps/place/"+locRep;
+
+    //append the row
+    $("#the_list").append("<tr class=an_event id=event_"+i+"><td>"+time+"</td><td>"+item.activity
+                            +"</td><td><a href="+gmapsLink+" target='_blank'>"+item.location+"</a></td><td><button class=rmv>-</button></td></tr>");
     i++;
   });  
 
   //handler when elements are removed
   $(".rmv").click(function(){  
-    var idx = $(this).parent().attr('id').split('_')[1];  
+    var idx = $(this).parent().parent().attr('id').split('_')[1];  
     var removed = event_list[idx];
     var lst = [removed, idx]
     socket.emit("deleteMyEvent", lst);
@@ -113,8 +128,6 @@ function GetURLParameter(sParam){
     }
   }
 }
-
-
 
 
 

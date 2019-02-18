@@ -1,7 +1,102 @@
-.rmv {
-    display: none;
+
+h1 {
+	text-align:center; 
+	margin-bottom: -15px;
+	margin-top: 0px;
 }
 
-.an_event:hover .rmv {
-    display: inline-block;
+#column1 {
+  float: left;
+  width: 66%;
+  padding: 10px;
+  margin-left: 20px;
 }
+
+#column2 {
+  float: left;
+  width: 21%;
+  padding: 10px;
+  border: solid 1px black;
+}
+
+.row{
+	padding-top: 25px;
+	margin-top: 10px;
+	border-top: solid 2px black;
+}
+
+
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
+
+
+
+
+
+
+#manual_add{
+	border-bottom: solid 1px black;
+	padding: 5px;
+	padding-bottom: 15px;
+}
+
+
+#suggestions_add{
+	border-bottom: solid 1px black;
+	padding: 5px;
+}
+
+
+#chat{
+	padding: 5px;
+}
+
+h2{
+	margin-top: 0px;
+	margin-bottom: 5px;
+}
+
+h3{
+	margin-top: 0px;
+	margin-bottom: 5px;
+}
+
+
+#chat_area{
+	height:200px; 
+	overflow-y:scroll; 
+	border:1px solid black;"
+}
+
+
+
+
+
+
+
+h4 {
+	margin-top: 15px;
+	margin-bottom: 5px;
+}
+
+td, th {
+	border: solid 1px gray;
+	padding: 3px;
+	padding-left: 6px;
+	padding-right: 6px;
+} 
+
+
+a { color:black }
+a:visited { text-decoration: none; color:black; }
+a:hover { text-decoration: none; color:grey; }
+a:focus { text-decoration: none; color:black; }
+a:hover, a:active { text-decoration: none; color:black }
+
+
+
+
